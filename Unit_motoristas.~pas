@@ -1,0 +1,36 @@
+unit Unit_motoristas;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, DB, ADODB, Grids, DBGrids;
+
+type
+  Tform_motoristas = class(TForm)
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    btn_fecahr: TBitBtn;
+    ADOQuery1: TADOQuery;
+    procedure btn_fecahrClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  form_motoristas: Tform_motoristas;
+
+implementation
+
+uses Unit_menu;
+
+{$R *.dfm}
+
+procedure Tform_motoristas.btn_fecahrClick(Sender: TObject);
+begin
+Close;
+end;
+
+end.
