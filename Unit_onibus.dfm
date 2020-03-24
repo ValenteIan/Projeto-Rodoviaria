@@ -37,11 +37,25 @@ object form_onibus: Tform_onibus
     Caption = 'N'#250'mero:'
   end
   object Label4: TLabel
-    Left = 456
+    Left = 528
     Top = 40
-    Width = 36
-    Height = 13
+    Width = 46
+    Height = 16
     Caption = 'Trajeto:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    Layout = tlCenter
+  end
+  object X: TLabel
+    Left = 552
+    Top = 64
+    Width = 7
+    Height = 13
+    Caption = 'X'
   end
   object btn_fechar: TBitBtn
     Left = 568
@@ -72,10 +86,10 @@ object form_onibus: Tform_onibus
     Height = 21
     TabOrder = 2
   end
-  object edt_trajeto: TEdit
+  object edt_trajeto1: TEdit
     Left = 456
     Top = 56
-    Width = 273
+    Width = 81
     Height = 21
     TabOrder = 3
   end
@@ -105,6 +119,13 @@ object form_onibus: Tform_onibus
     Caption = 'Inserir'
     TabOrder = 6
     OnClick = btn_inserirClick
+  end
+  object edt_trajeto2: TEdit
+    Left = 568
+    Top = 56
+    Width = 89
+    Height = 21
+    TabOrder = 7
   end
   object ds_onibus: TDataSource
     DataSet = adoquery_onibus
