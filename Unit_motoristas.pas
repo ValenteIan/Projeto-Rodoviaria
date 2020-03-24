@@ -93,8 +93,10 @@ begin
       edt_num.Clear;
       edt_nome.Clear;
       edt_idade.Clear;
-      edt_sexo.Clear;
       edt_salario.Clear;
+      rb_masculino.Checked:=false;
+      rb_feminino.Checked:=false;
+
     end;
 end;
 

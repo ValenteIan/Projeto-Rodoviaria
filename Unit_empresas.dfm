@@ -44,6 +44,7 @@ object Form_empresas: TForm_empresas
     Width = 505
     Height = 169
     DataSource = ds_empresas
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -74,6 +75,24 @@ object Form_empresas: TForm_empresas
     TabOrder = 4
     OnClick = BitBtn1Click
   end
+  object btn_alterar: TBitBtn
+    Left = 464
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Alterar'
+    TabOrder = 5
+    OnClick = btn_alterarClick
+  end
+  object btn_salvar: TBitBtn
+    Left = 552
+    Top = 72
+    Width = 97
+    Height = 25
+    Caption = 'Salvar Altera'#231#245'es'
+    TabOrder = 6
+    OnClick = btn_salvarClick
+  end
   object adoquery_empresas: TADOQuery
     Connection = Form_menu.ConexaoBD
     CursorType = ctStatic
@@ -91,7 +110,7 @@ object Form_empresas: TForm_empresas
   object adoquery_aux: TADOQuery
     Connection = Form_menu.ConexaoBD
     Parameters = <>
-    Left = 160
-    Top = 320
+    Left = 232
+    Top = 288
   end
 end

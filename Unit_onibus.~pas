@@ -24,6 +24,7 @@ type
     adoquery_aux: TADOQuery;
     X: TLabel;
     edt_trajeto2: TEdit;
+    btn_alterar: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

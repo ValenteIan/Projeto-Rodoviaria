@@ -18,10 +18,14 @@ type
     Label2: TLabel;
     adoquery_aux: TADOQuery;
     BitBtn1: TBitBtn;
+    btn_alterar: TBitBtn;
+    btn_salvar: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn1Click(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
+    procedure btn_salvarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -30,6 +34,7 @@ type
 
 var
   Form_empresas: TForm_empresas;
+  cod_empresa : string;
 
 implementation
 
@@ -83,6 +88,36 @@ else
     edt_cod.Clear;
     edt_nome.Clear;
   end;
+end;
+
+procedure TForm_empresas.btn_alterarClick(Sender: TObject);
+begin
+   cod_empresa:=adoquery_empresas.fieldbyname('cod_empresa').AsString;
+   edt_cod.Text:=cod_empresa;
+   edt_nome.Text:=adoquery_empresas.fieldbyname('nome').AsString;
+end;
+
+procedure TForm_empresas.btn_salvarClick(Sender: TObject);
+begin
+//Inicia transação
+Form_menu.ConexaoBD.BeginTrans;
+//Monta instrução UPDATE
+adoquery_aux.SQL.Text:='UPDATE EMPRESAS SET ' +
+                        ' COD_EMPRESA = ' + edt_cod.Text + ',' +
+                        ' NOME = ' + QuotedStr(edt_nome.Text) +
+                        ' WHERE COD_EMPRESA = ' + cod_empresa;
+//Execute a instrução UPDATE
+adoquery_aux.ExecSQL;
+//Encerra a transação confirmando as alterações
+Form_menu.ConexaoBD.CommitTrans;
+//Atualiza o adoquery_empresas
+adoquery_empresas.Close;
+adoquery_empresas.Open;
+//Exibe mensagem e limpa as caixas de texto
+showmessage('Informações atualizadas com sucesso!');
+edt_cod.Clear;
+edt_nome.Clear;
+
 end;
 
 end.

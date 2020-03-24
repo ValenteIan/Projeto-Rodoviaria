@@ -127,6 +127,14 @@ object form_onibus: Tform_onibus
     Height = 21
     TabOrder = 7
   end
+  object btn_alterar: TBitBtn
+    Left = 664
+    Top = 56
+    Width = 75
+    Height = 25
+    Caption = 'Alterar'
+    TabOrder = 8
+  end
   object ds_onibus: TDataSource
     DataSet = adoquery_onibus
     Left = 360

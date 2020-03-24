@@ -1,8 +1,8 @@
 object Form_empresas: TForm_empresas
-  Left = 353
-  Top = 225
+  Left = 372
+  Top = 252
   Width = 769
-  Height = 427
+  Height = 405
   Caption = 'Empresas'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -44,6 +44,7 @@ object Form_empresas: TForm_empresas
     Width = 505
     Height = 169
     DataSource = ds_empresas
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -52,16 +53,16 @@ object Form_empresas: TForm_empresas
     TitleFont.Style = []
   end
   object edt_cod: TEdit
-    Left = 368
+    Left = 160
     Top = 40
-    Width = 297
+    Width = 113
     Height = 21
     TabOrder = 2
   end
   object edt_nome: TEdit
-    Left = 160
+    Left = 368
     Top = 40
-    Width = 121
+    Width = 297
     Height = 21
     TabOrder = 3
   end
@@ -73,6 +74,24 @@ object Form_empresas: TForm_empresas
     Caption = 'Inserir'
     TabOrder = 4
     OnClick = BitBtn1Click
+  end
+  object btn_alterar: TBitBtn
+    Left = 464
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Alterar'
+    TabOrder = 5
+    OnClick = btn_alterarClick
+  end
+  object btn_salvar: TBitBtn
+    Left = 552
+    Top = 72
+    Width = 97
+    Height = 25
+    Caption = 'Salvar Altera'#231#245'es'
+    TabOrder = 6
+    OnClick = btn_salvarClick
   end
   object adoquery_empresas: TADOQuery
     Connection = Form_menu.ConexaoBD
@@ -91,7 +110,7 @@ object Form_empresas: TForm_empresas
   object adoquery_aux: TADOQuery
     Connection = Form_menu.ConexaoBD
     Parameters = <>
-    Left = 160
-    Top = 320
+    Left = 232
+    Top = 288
   end
 end
