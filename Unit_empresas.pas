@@ -69,7 +69,8 @@ else
     //Inicia uma transação
     Form_menu.ConexaoBD.BeginTrans;
     //Monta o comando Insert
-    adoquery_aux.SQL.Text:=' INSERT INTO EMPRESAS VALUES (' +edt_cod.Text + ',' + QuotedStr(edt_nome.Text) + ')';
+    adoquery_aux.SQL.Text:=' INSERT INTO EMPRESAS VALUES (' +
+                            edt_cod.Text + ',' + QuotedStr(edt_nome.Text) + ')';
     //Executa o comando SQL
     adoquery_aux.ExecSQL;
     //Encerra a transação confirmando a alteração

@@ -78,7 +78,7 @@ else
     adoquery_empresas.Close;
     adoquery_empresas.Open;
     //Exibe mensagem e limpa os campos
-    ShowMessage('Operação executada com sucesso!')
+    ShowMessage('Operação executada com sucesso!');
     edt_cod.Clear;
     edt_nome.Clear;
   end;

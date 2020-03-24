@@ -1,8 +1,8 @@
 object form_motoristas: Tform_motoristas
-  Left = -1410
-  Top = 247
-  Width = 1088
-  Height = 563
+  Left = 297
+  Top = 179
+  Width = 1040
+  Height = 580
   Caption = 'Motoristas'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,13 +11,51 @@ object form_motoristas: Tform_motoristas
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object DBGrid1: TDBGrid
-    Left = 296
-    Top = 128
-    Width = 320
-    Height = 120
+  object Label1: TLabel
+    Left = 280
+    Top = 80
+    Width = 40
+    Height = 13
+    Caption = 'N'#250'mero:'
+  end
+  object Label2: TLabel
+    Left = 360
+    Top = 80
+    Width = 31
+    Height = 13
+    Caption = 'Nome:'
+  end
+  object Label3: TLabel
+    Left = 632
+    Top = 80
+    Width = 30
+    Height = 13
+    Caption = 'Idade:'
+  end
+  object Label4: TLabel
+    Left = 688
+    Top = 80
+    Width = 27
+    Height = 13
+    Caption = 'Sexo:'
+  end
+  object Label5: TLabel
+    Left = 736
+    Top = 80
+    Width = 35
+    Height = 13
+    Caption = 'Sal'#225'rio:'
+  end
+  object dbgrid_motoristas: TDBGrid
+    Left = 280
+    Top = 152
+    Width = 537
+    Height = 249
+    DataSource = ds_motoristas
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -25,26 +63,62 @@ object form_motoristas: Tform_motoristas
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
   end
-  object btn_fecahr: TBitBtn
-    Left = 408
-    Top = 256
-    Width = 75
+  object btn_fechar: TBitBtn
+    Left = 512
+    Top = 408
+    Width = 145
     Height = 25
     Caption = 'Fechar'
     TabOrder = 1
-    OnClick = btn_fecahrClick
+    OnClick = btn_fecharClick
   end
-  object DataSource1: TDataSource
+  object Edit1: TEdit
+    Left = 280
+    Top = 96
+    Width = 57
+    Height = 21
+    TabOrder = 2
+  end
+  object Edit2: TEdit
+    Left = 360
+    Top = 96
+    Width = 249
+    Height = 21
+    TabOrder = 3
+  end
+  object Edit3: TEdit
+    Left = 632
+    Top = 96
+    Width = 41
+    Height = 21
+    TabOrder = 4
+  end
+  object Edit4: TEdit
+    Left = 688
+    Top = 96
+    Width = 41
+    Height = 21
+    TabOrder = 5
+  end
+  object Edit5: TEdit
+    Left = 736
+    Top = 96
+    Width = 81
+    Height = 21
+    TabOrder = 6
+  end
+  object ds_motoristas: TDataSource
+    DataSet = adoquery_motoristas
     Left = 328
-    Top = 256
+    Top = 408
   end
-  object ADOQuery1: TADOQuery
+  object adoquery_motoristas: TADOQuery
     Connection = Form_menu.ConexaoBD
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
       'SELECT * FROM MOTORISTAS ORDER BY NOME')
-    Left = 304
-    Top = 256
+    Left = 280
+    Top = 408
   end
 end

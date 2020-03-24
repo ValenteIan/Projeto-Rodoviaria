@@ -8,11 +8,23 @@ uses
 
 type
   Tform_motoristas = class(TForm)
-    DBGrid1: TDBGrid;
-    DataSource1: TDataSource;
-    btn_fecahr: TBitBtn;
-    ADOQuery1: TADOQuery;
-    procedure btn_fecahrClick(Sender: TObject);
+    dbgrid_motoristas: TDBGrid;
+    ds_motoristas: TDataSource;
+    btn_fechar: TBitBtn;
+    adoquery_motoristas: TADOQuery;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    procedure btn_fecharClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -28,9 +40,20 @@ uses Unit_menu;
 
 {$R *.dfm}
 
-procedure Tform_motoristas.btn_fecahrClick(Sender: TObject);
+procedure Tform_motoristas.btn_fecharClick(Sender: TObject);
 begin
 Close;
+end;
+
+procedure Tform_motoristas.FormShow(Sender: TObject);
+begin
+adoquery_motoristas.Open;
+end;
+
+procedure Tform_motoristas.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+adoquery_motoristas.Close;
 end;
 
 end.

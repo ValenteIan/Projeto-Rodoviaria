@@ -1,8 +1,8 @@
 object Form_empresas: TForm_empresas
-  Left = 353
-  Top = 225
+  Left = 372
+  Top = 252
   Width = 769
-  Height = 427
+  Height = 405
   Caption = 'Empresas'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -52,16 +52,16 @@ object Form_empresas: TForm_empresas
     TitleFont.Style = []
   end
   object edt_cod: TEdit
-    Left = 368
+    Left = 160
     Top = 40
-    Width = 297
+    Width = 113
     Height = 21
     TabOrder = 2
   end
   object edt_nome: TEdit
-    Left = 160
+    Left = 368
     Top = 40
-    Width = 121
+    Width = 297
     Height = 21
     TabOrder = 3
   end
