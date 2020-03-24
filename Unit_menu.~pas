@@ -83,7 +83,7 @@ var
 
 implementation
 
-uses Unit_empresas, Unit_motoristas;
+uses Unit_empresas, Unit_motoristas, Unit_onibus;
 
 {$R *.dfm}
 

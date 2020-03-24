@@ -1,8 +1,8 @@
 object Form_empresas: TForm_empresas
-  Left = -1410
-  Top = 247
-  Width = 1088
-  Height = 563
+  Left = 353
+  Top = 225
+  Width = 769
+  Height = 427
   Caption = 'Empresas'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,9 +15,23 @@ object Form_empresas: TForm_empresas
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Label1: TLabel
+    Left = 368
+    Top = 24
+    Width = 31
+    Height = 13
+    Caption = 'Nome:'
+  end
+  object Label2: TLabel
+    Left = 160
+    Top = 24
+    Width = 36
+    Height = 13
+    Caption = 'C'#243'digo:'
+  end
   object btn_fechar: TBitBtn
-    Left = 256
-    Top = 232
+    Left = 360
+    Top = 288
     Width = 145
     Height = 25
     Caption = 'Fechar'
@@ -25,10 +39,10 @@ object Form_empresas: TForm_empresas
     OnClick = btn_fecharClick
   end
   object dbgrid_empresas: TDBGrid
-    Left = 168
-    Top = 104
-    Width = 297
-    Height = 120
+    Left = 160
+    Top = 112
+    Width = 505
+    Height = 169
     DataSource = ds_empresas
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -37,18 +51,47 @@ object Form_empresas: TForm_empresas
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
   end
+  object edt_cod: TEdit
+    Left = 368
+    Top = 40
+    Width = 297
+    Height = 21
+    TabOrder = 2
+  end
+  object edt_nome: TEdit
+    Left = 160
+    Top = 40
+    Width = 121
+    Height = 21
+    TabOrder = 3
+  end
+  object BitBtn1: TBitBtn
+    Left = 368
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Inserir'
+    TabOrder = 4
+    OnClick = BitBtn1Click
+  end
   object adoquery_empresas: TADOQuery
     Connection = Form_menu.ConexaoBD
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
       'SELECT * FROM EMPRESAS ORDER BY NOME')
-    Left = 168
-    Top = 232
+    Left = 160
+    Top = 288
   end
   object ds_empresas: TDataSource
     DataSet = adoquery_empresas
     Left = 200
-    Top = 232
+    Top = 288
+  end
+  object adoquery_aux: TADOQuery
+    Connection = Form_menu.ConexaoBD
+    Parameters = <>
+    Left = 160
+    Top = 320
   end
 end
