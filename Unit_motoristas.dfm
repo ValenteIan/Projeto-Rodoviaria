@@ -93,19 +93,12 @@ object form_motoristas: Tform_motoristas
     Height = 21
     TabOrder = 4
   end
-  object edt_sexo: TEdit
-    Left = 688
-    Top = 96
-    Width = 41
-    Height = 21
-    TabOrder = 5
-  end
   object edt_salario: TEdit
     Left = 736
     Top = 96
     Width = 81
     Height = 21
-    TabOrder = 6
+    TabOrder = 5
   end
   object BitBtn1: TBitBtn
     Left = 736
@@ -113,8 +106,24 @@ object form_motoristas: Tform_motoristas
     Width = 81
     Height = 25
     Caption = 'Inserir'
-    TabOrder = 7
+    TabOrder = 6
     OnClick = BitBtn1Click
+  end
+  object rb_feminino: TRadioButton
+    Left = 688
+    Top = 96
+    Width = 33
+    Height = 17
+    Caption = 'F'
+    TabOrder = 7
+  end
+  object rb_masculino: TRadioButton
+    Left = 688
+    Top = 112
+    Width = 41
+    Height = 17
+    Caption = 'M'
+    TabOrder = 8
   end
   object ds_motoristas: TDataSource
     DataSet = adoquery_motoristas

@@ -1,6 +1,6 @@
 object form_motoristas: Tform_motoristas
-  Left = 297
-  Top = 179
+  Left = 206
+  Top = 169
   Width = 1040
   Height = 580
   Caption = 'Motoristas'
@@ -72,40 +72,58 @@ object form_motoristas: Tform_motoristas
     TabOrder = 1
     OnClick = btn_fecharClick
   end
-  object Edit1: TEdit
+  object edt_num: TEdit
     Left = 280
     Top = 96
     Width = 57
     Height = 21
     TabOrder = 2
   end
-  object Edit2: TEdit
+  object edt_nome: TEdit
     Left = 360
     Top = 96
     Width = 249
     Height = 21
     TabOrder = 3
   end
-  object Edit3: TEdit
+  object edt_idade: TEdit
     Left = 632
     Top = 96
     Width = 41
     Height = 21
     TabOrder = 4
   end
-  object Edit4: TEdit
-    Left = 688
-    Top = 96
-    Width = 41
-    Height = 21
-    TabOrder = 5
-  end
-  object Edit5: TEdit
+  object edt_salario: TEdit
     Left = 736
     Top = 96
     Width = 81
     Height = 21
+    TabOrder = 5
+  end
+  object BitBtn1: TBitBtn
+    Left = 736
+    Top = 120
+    Width = 81
+    Height = 25
+    Caption = 'Inserir'
     TabOrder = 6
+    OnClick = BitBtn1Click
+  end
+  object rb_feminino: TRadioButton
+    Left = 688
+    Top = 96
+    Width = 33
+    Height = 17
+    Caption = 'F'
+    TabOrder = 7
+  end
+  object rb_masculino: TRadioButton
+    Left = 688
+    Top = 112
+    Width = 41
+    Height = 17
+    Caption = 'M'
+    TabOrder = 8
   end
   object ds_motoristas: TDataSource
     DataSet = adoquery_motoristas
@@ -119,6 +137,12 @@ object form_motoristas: Tform_motoristas
     SQL.Strings = (
       'SELECT * FROM MOTORISTAS ORDER BY NOME')
     Left = 280
+    Top = 408
+  end
+  object adoquery_aux: TADOQuery
+    Connection = Form_menu.ConexaoBD
+    Parameters = <>
+    Left = 368
     Top = 408
   end
 end

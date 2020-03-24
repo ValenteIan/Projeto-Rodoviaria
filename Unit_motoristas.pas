@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, DB, ADODB, Grids, DBGrids;
+  Dialogs, StdCtrls, Buttons, DB, ADODB, Grids, DBGrids, ExtCtrls;
 
 type
   Tform_motoristas = class(TForm)
@@ -15,7 +15,6 @@ type
     edt_num: TEdit;
     edt_nome: TEdit;
     edt_idade: TEdit;
-    edt_sexo: TEdit;
     edt_salario: TEdit;
     Label1: TLabel;
     Label2: TLabel;
@@ -24,6 +23,8 @@ type
     Label5: TLabel;
     BitBtn1: TBitBtn;
     adoquery_aux: TADOQuery;
+    rb_feminino: TRadioButton;
+    rb_masculino: TRadioButton;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -36,6 +37,7 @@ type
 
 var
   form_motoristas: Tform_motoristas;
+  sexo: string;
 
 implementation
 
@@ -62,17 +64,26 @@ end;
 procedure Tform_motoristas.BitBtn1Click(Sender: TObject);
 begin
   if  (trim(edt_num.Text)='') or (trim(edt_nome.Text)='') or
-      (trim(edt_idade.Text)='') or (trim(edt_sexo.Text)='') or
-      ( trim(edt_salario.Text)='') then
+      (trim(edt_idade.Text)='') or (not rb_feminino.Checked and not rb_masculino.Checked) or
+      (trim(edt_salario.Text)='') then
     begin
     ShowMessage('Preencha todos os campos!');
     end
   else
     begin
       Form_menu.ConexaoBD.BeginTrans;
+
+      if rb_feminino.Checked then
+        begin
+         sexo:= 'F';
+        end
+      else
+        begin
+          sexo:= 'M';
+        end;
       adoquery_aux.SQL.Text:=' INSERT INTO MOTORISTAS VALUES (' +
                               edt_num.Text + ',' + QuotedStr(edt_nome.Text) + ',' +
-                             edt_idade.Text + ',' + QuotedStr(edt_sexo.Text) + ',' +
+                             edt_idade.Text + ',' + QuotedStr(sexo) + ',' +
                              edt_salario.Text + ')';
       adoquery_aux.ExecSQL;
       Form_menu.ConexaoBD.CommitTrans;
@@ -84,7 +95,7 @@ begin
       edt_idade.Clear;
       edt_sexo.Clear;
       edt_salario.Clear;
-    end
+    end;
 end;
 
 end.
