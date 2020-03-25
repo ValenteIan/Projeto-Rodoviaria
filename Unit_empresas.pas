@@ -17,13 +17,14 @@ type
     Label1: TLabel;
     Label2: TLabel;
     adoquery_aux: TADOQuery;
-    BitBtn1: TBitBtn;
+    btn_inserir: TBitBtn;
     btn_alterar: TBitBtn;
     btn_salvar: TBitBtn;
+    btn_excluir: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure BitBtn1Click(Sender: TObject);
+    procedure btn_inserirClick(Sender: TObject);
     procedure btn_alterarClick(Sender: TObject);
     procedure btn_salvarClick(Sender: TObject);
   private
@@ -50,6 +51,7 @@ end;
 procedure TForm_empresas.FormShow(Sender: TObject);
 begin
 adoquery_empresas.Open;
+btn_salvar.Visible:=false;
 end;
 
 procedure TForm_empresas.FormClose(Sender: TObject;
@@ -58,7 +60,7 @@ begin
 adoquery_empresas.Close;
 end;
 
-procedure TForm_empresas.BitBtn1Click(Sender: TObject);
+procedure TForm_empresas.btn_inserirClick(Sender: TObject);
 begin
 // Se algum campo estiver vazio Então
 //    exibe a mensagem
@@ -92,6 +94,9 @@ end;
 
 procedure TForm_empresas.btn_alterarClick(Sender: TObject);
 begin
+btn_salvar.Visible:=true;
+btn_excluir.Visible:=false;
+btn_inserir.Visible:=false;
    cod_empresa:=adoquery_empresas.fieldbyname('cod_empresa').AsString;
    edt_cod.Text:=cod_empresa;
    edt_nome.Text:=adoquery_empresas.fieldbyname('nome').AsString;
@@ -117,6 +122,9 @@ adoquery_empresas.Open;
 showmessage('Informações atualizadas com sucesso!');
 edt_cod.Clear;
 edt_nome.Clear;
+btn_salvar.Visible:=false;
+btn_excluir.Visible:=true;
+btn_inserir.Visible:=true;
 
 end;
 

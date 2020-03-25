@@ -66,17 +66,17 @@ object Form_empresas: TForm_empresas
     Height = 21
     TabOrder = 3
   end
-  object BitBtn1: TBitBtn
-    Left = 368
+  object btn_inserir: TBitBtn
+    Left = 160
     Top = 72
     Width = 75
     Height = 25
     Caption = 'Inserir'
     TabOrder = 4
-    OnClick = BitBtn1Click
+    OnClick = btn_inserirClick
   end
   object btn_alterar: TBitBtn
-    Left = 464
+    Left = 368
     Top = 72
     Width = 75
     Height = 25
@@ -85,13 +85,21 @@ object Form_empresas: TForm_empresas
     OnClick = btn_alterarClick
   end
   object btn_salvar: TBitBtn
-    Left = 552
+    Left = 456
     Top = 72
     Width = 97
     Height = 25
     Caption = 'Salvar Altera'#231#245'es'
     TabOrder = 6
     OnClick = btn_salvarClick
+  end
+  object btn_excluir: TBitBtn
+    Left = 568
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Excluir'
+    TabOrder = 7
   end
   object adoquery_empresas: TADOQuery
     Connection = Form_menu.ConexaoBD
