@@ -100,6 +100,7 @@ object Form_empresas: TForm_empresas
     Height = 25
     Caption = 'Excluir'
     TabOrder = 7
+    OnClick = btn_excluirClick
   end
   object adoquery_empresas: TADOQuery
     Connection = Form_menu.ConexaoBD

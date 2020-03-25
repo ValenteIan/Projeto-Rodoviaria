@@ -27,6 +27,7 @@ type
     procedure btn_inserirClick(Sender: TObject);
     procedure btn_alterarClick(Sender: TObject);
     procedure btn_salvarClick(Sender: TObject);
+    procedure btn_excluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -96,7 +97,7 @@ procedure TForm_empresas.btn_alterarClick(Sender: TObject);
 begin
 btn_salvar.Visible:=true;
 btn_excluir.Visible:=false;
-btn_inserir:=false;
+btn_inserir.Visible:=false;
    cod_empresa:=adoquery_empresas.fieldbyname('cod_empresa').AsString;
    edt_cod.Text:=cod_empresa;
    edt_nome.Text:=adoquery_empresas.fieldbyname('nome').AsString;
@@ -125,6 +126,30 @@ edt_nome.Clear;
 btn_salvar.Visible:=false;
 btn_excluir.Visible:=true;
 btn_inserir.Visible:=true;
+
+end;
+
+procedure TForm_empresas.btn_excluirClick(Sender: TObject);
+begin
+//Obtém o codigo da empresa selecionada
+cod_empresa:=adoquery_empresas.fieldbyname('cod_empresa').AsString;
+//Inicia transação
+Form_menu.ConexaoBD.BeginTrans;
+//Monsta instrução DELETE
+adoquery_aux.SQL.Text:=' DELETE FROM MOTORISTAS ' +
+                        'WHERE MOTORISTA = ' + cod_empresa;
+//Execute a instrução DELETE
+adoquery_aux.ExecSQL;
+//Encerra a transação confirmando as alterações
+Form_menu.ConexaoBD.CommitTrans;
+//Atualiza o adoquery_empresas
+adoquery_empresas.Close;
+adoquery_empresas.Open;
+//Exibe mensagem e limpa as caixas de texto
+showmessage('Empresa excluída com sucesso!');
+edt_cod.Clear;
+edt_nome.Clear;
+
 
 end;
 
