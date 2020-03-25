@@ -25,10 +25,14 @@ type
     adoquery_aux: TADOQuery;
     rb_feminino: TRadioButton;
     rb_masculino: TRadioButton;
+    btn_alterar: TBitBtn;
+    btn_salvar: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BitBtn1Click(Sender: TObject);
+    procedure btn_salvarClick(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,8 +41,8 @@ type
 
 var
   form_motoristas: Tform_motoristas;
+  num_motorista: string;
   sexo: string;
-
 implementation
 
 uses Unit_menu;
@@ -98,6 +102,58 @@ begin
       rb_feminino.Checked:=false;
 
     end;
+end;
+
+procedure Tform_motoristas.btn_alterarClick(Sender: TObject);
+begin
+  num_motorista:=adoquery_motoristas.fieldbyname('num_motorista').AsString;
+  edt_num.Text:=num_motorista;
+  edt_nome.Text:=adoquery_motoristas.fieldbyname('nome').AsString;
+  edt_idade.Text:=adoquery_motoristas.fieldbyname('idade').AsString;
+  edt_salario.Text:=adoquery_motoristas.fieldbyname('salario').AsString;
+  if adoquery_motoristas.FieldByName('sexo').AsString ='F' then
+    begin
+      rb_feminino.Checked := true;
+      rb_masculino.Checked := false;
+    end
+  else
+    begin
+      rb_masculino.Checked := true;
+      rb_feminino.Checked := false;
+    end;
+end;
+
+procedure Tform_motoristas.btn_salvarClick(Sender: TObject);
+begin
+  Form_menu.ConexaoBD.BeginTrans;
+  if rb_feminino.Checked then
+        begin
+         sexo:= 'F';
+        end
+      else
+        begin
+          sexo:= 'M';
+        end;
+  adoquery_aux.SQL.Text:='UPDATE MOTORISTAS SET ' +
+                          ' NUM_MOTORISTA = ' + edt_num.Text + ',' +
+                          ' NOME = ' + QuotedStr(edt_nome.Text) + ',' +
+                          ' IDADE = ' + edt_idade.Text + ',' +
+                          ' SEXO = ' + QuotedStr(sexo) + ',' +
+                          ' SALARIO = ' + edt_salario.Text +
+                          ' WHERE NUM_MOTORISTA = ' + num_motorista;
+  adoquery_aux.ExecSQL;
+  Form_menu.ConexaoBD.CommitTrans;
+  adoquery_motoristas.Close;
+  adoquery_motoristas.Open;
+  showmessage('Informações atualizadas com sucesso!');
+  edt_num.Clear;
+  edt_nome.Clear;
+  edt_idade.Clear;
+  rb_masculino.Checked:=false;
+  rb_feminino.Checked:=false;
+  edt_salario.Clear;
+
+
 end;
 
 end.

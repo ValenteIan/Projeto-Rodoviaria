@@ -56,6 +56,7 @@ object form_motoristas: Tform_motoristas
     Width = 537
     Height = 249
     DataSource = ds_motoristas
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -124,6 +125,24 @@ object form_motoristas: Tform_motoristas
     Height = 17
     Caption = 'M'
     TabOrder = 8
+  end
+  object btn_alterar: TBitBtn
+    Left = 360
+    Top = 120
+    Width = 75
+    Height = 25
+    Caption = 'Alterar'
+    TabOrder = 9
+    OnClick = btn_alterarClick
+  end
+  object btn_salvar: TBitBtn
+    Left = 448
+    Top = 120
+    Width = 89
+    Height = 25
+    Caption = 'Salvar Altera'#231#245'es'
+    TabOrder = 10
+    OnClick = btn_salvarClick
   end
   object ds_motoristas: TDataSource
     DataSet = adoquery_motoristas
