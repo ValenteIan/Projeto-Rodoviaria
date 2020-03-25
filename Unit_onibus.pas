@@ -13,7 +13,7 @@ type
     dbgrid_onibus: TDBGrid;
     adoquery_onibus: TADOQuery;
     edt_num: TEdit;
-    edt_trajeto1: TEdit;
+    edt_trajeto: TEdit;
     cb_motorista: TComboBox;
     cb_empresa: TComboBox;
     btn_inserir: TBitBtn;
@@ -22,14 +22,16 @@ type
     Label3: TLabel;
     Label4: TLabel;
     adoquery_aux: TADOQuery;
-    X: TLabel;
-    edt_trajeto2: TEdit;
+    btn_alterar: TBitBtn;
+    btn_salvar: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure cb_motoristaChange(Sender: TObject);
     procedure cb_empresaChange(Sender: TObject);
     procedure btn_inserirClick(Sender: TObject);
+    procedure btn_alterarClick(Sender: TObject);
+    procedure btn_salvarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -39,7 +41,7 @@ type
 var
   form_onibus: Tform_onibus;
   num_motorista, cod_empresa : integer;
-
+  num_onibus : string;
 implementation
 
 uses Unit_menu;
@@ -128,7 +130,7 @@ begin
   //   exibe mensagem
   //Senão
   //   executa o INSERT
-  if (trim(edt_num.Text)='') or (trim(edt_trajeto1.Text)='') or (trim(edt_trajeto2.Text)='') or
+  if (trim(edt_num.Text)='') or (trim(edt_trajeto.Text)='') or
       (trim(cb_motorista.Text)='') or (trim(cb_empresa.Text)='') then
     begin
       Showmessage('Preencha todos os campos!')
@@ -140,7 +142,7 @@ begin
     //Monta o comando Insert
     adoquery_aux.SQL.Text:='INSERT INTO ONIBUS VALUES ('+
                             edt_num.Text + ',' + IntToStr(cod_empresa) + ',' +
-                            IntToStr(num_motorista) + ',' + QuotedStr(edt_trajeto1.Text+' x '+edt_trajeto2.Text) + ')';
+                            IntToStr(num_motorista) + ',' + QuotedStr(edt_trajeto.Text) + ')';
     //Executa comando SQL
     adoquery_aux.ExecSQL;
     //Encerra a transação confirmando a alteração
@@ -151,11 +153,44 @@ begin
     //Exibe mensagem e limpa os campos
     ShowMessage('Operação executada com sucesso !');
     edt_num.Clear;
-    edt_trajeto1.Clear;
-    edt_trajeto2.Clear;
+    edt_trajeto.Clear;
     cb_motorista.ItemIndex:= -1; //Colocamos -1 na propriedade Itemindex do combobox
     cb_empresa.ItemIndex:= -1;    //para não precisa limpar os nomes cadastrados
    end;
+
+end;
+
+procedure Tform_onibus.btn_alterarClick(Sender: TObject);
+begin
+  num_onibus:=adoquery_onibus.fieldbyname('onibus').AsString;
+  edt_num.Text:=num_onibus;
+  edt_trajeto.Text:=adoquery_onibus.fieldbyname('trajeto').AsString;
+  cb_motorista.Text:=adoquery_onibus.fieldbyname('motorista').AsString;
+  cb_motoristaChange(sender);//Executa o evento OnChange do objeto
+  cb_empresa.Text:=adoquery_onibus.fieldbyname('empresa').AsString;
+  cb_empresaChange(sender);//Executa o evento OnChange do objeto
+
+end;
+
+procedure Tform_onibus.btn_salvarClick(Sender: TObject);
+begin
+Form_menu.ConexaoBD.BeginTrans;
+adoquery_aux.SQL.Text:='UPDATE ONIBUS SET ' +
+                        ' NUM_ONIBUS = ' + edt_num.Text + ',' +
+                        ' COD_EMPRESA = ' + inttostr(cod_empresa) + ',' +
+                        ' NUM_MOTORISTA = ' + inttostr(num_motorista) + ',' +
+                        ' TRAJETO = ' + QuotedStr(edt_trajeto.Text) +
+                        ' WHERE NUM_ONIBUS = ' + num_onibus;
+adoquery_aux.ExecSQL;
+Form_menu.ConexaoBD.CommitTrans;
+adoquery_onibus.Close;
+adoquery_onibus.Open;
+showmessage('Informações atualizadas com sucesso!');
+edt_num.Clear;
+edt_trajeto.Clear;
+cb_motorista.ItemIndex := -1;
+cb_empresa.ItemIndex := -1;
+
 
 end;
 

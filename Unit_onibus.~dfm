@@ -50,16 +50,9 @@ object form_onibus: Tform_onibus
     ParentFont = False
     Layout = tlCenter
   end
-  object X: TLabel
-    Left = 552
-    Top = 64
-    Width = 7
-    Height = 13
-    Caption = 'X'
-  end
   object btn_fechar: TBitBtn
     Left = 568
-    Top = 280
+    Top = 312
     Width = 145
     Height = 25
     Caption = 'Fechar'
@@ -68,10 +61,11 @@ object form_onibus: Tform_onibus
   end
   object dbgrid_onibus: TDBGrid
     Left = 320
-    Top = 128
+    Top = 160
     Width = 409
     Height = 145
     DataSource = ds_onibus
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -86,8 +80,8 @@ object form_onibus: Tform_onibus
     Height = 21
     TabOrder = 2
   end
-  object edt_trajeto1: TEdit
-    Left = 456
+  object edt_trajeto: TEdit
+    Left = 520
     Top = 56
     Width = 81
     Height = 21
@@ -120,25 +114,28 @@ object form_onibus: Tform_onibus
     TabOrder = 6
     OnClick = btn_inserirClick
   end
-  object edt_trajeto2: TEdit
-    Left = 568
-    Top = 56
-    Width = 89
-    Height = 21
-    TabOrder = 7
-  end
   object btn_alterar: TBitBtn
-    Left = 664
-    Top = 56
+    Left = 320
+    Top = 128
     Width = 75
     Height = 25
     Caption = 'Alterar'
+    TabOrder = 7
+    OnClick = btn_alterarClick
+  end
+  object btn_salvar: TBitBtn
+    Left = 408
+    Top = 128
+    Width = 89
+    Height = 25
+    Caption = 'Salvar Altera'#231#245'es'
     TabOrder = 8
+    OnClick = btn_salvarClick
   end
   object ds_onibus: TDataSource
     DataSet = adoquery_onibus
     Left = 360
-    Top = 280
+    Top = 312
   end
   object adoquery_onibus: TADOQuery
     Connection = Form_menu.ConexaoBD
@@ -154,12 +151,12 @@ object form_onibus: Tform_onibus
       ' INNER JOIN MOTORISTAS'
       '   ON MOTORISTAS.NUM_MOTORISTA = ONIBUS.NUM_MOTORISTA')
     Left = 328
-    Top = 280
+    Top = 312
   end
   object adoquery_aux: TADOQuery
     Connection = Form_menu.ConexaoBD
     Parameters = <>
     Left = 392
-    Top = 280
+    Top = 312
   end
 end
