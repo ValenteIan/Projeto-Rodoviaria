@@ -149,8 +149,6 @@ adoquery_empresas.Open;
 showmessage('Empresa excluída com sucesso!');
 edt_cod.Clear;
 edt_nome.Clear;
-
-
 end;
 
 end.

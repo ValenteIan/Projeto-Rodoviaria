@@ -101,14 +101,14 @@ object form_motoristas: Tform_motoristas
     Height = 21
     TabOrder = 5
   end
-  object BitBtn1: TBitBtn
+  object btn_inserir: TBitBtn
     Left = 736
     Top = 120
     Width = 81
     Height = 25
     Caption = 'Inserir'
     TabOrder = 6
-    OnClick = BitBtn1Click
+    OnClick = btn_inserirClick
   end
   object rb_feminino: TRadioButton
     Left = 688
@@ -143,6 +143,14 @@ object form_motoristas: Tform_motoristas
     Caption = 'Salvar Altera'#231#245'es'
     TabOrder = 10
     OnClick = btn_salvarClick
+  end
+  object btn_excluir: TBitBtn
+    Left = 544
+    Top = 120
+    Width = 75
+    Height = 25
+    Caption = 'Excluir'
+    TabOrder = 11
   end
   object ds_motoristas: TDataSource
     DataSet = adoquery_motoristas

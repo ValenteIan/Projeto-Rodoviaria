@@ -136,8 +136,8 @@ cod_empresa:=adoquery_empresas.fieldbyname('cod_empresa').AsString;
 //Inicia transação
 Form_menu.ConexaoBD.BeginTrans;
 //Monsta instrução DELETE
-adoquery_aux.SQL.Text:=' DELETE FROM MOTORISTAS ' +
-                        'WHERE MOTORISTA = ' + cod_empresa;
+adoquery_aux.SQL.Text:=' DELETE FROM EMPRESAS ' +
+                        'WHERE COD_EMPRESA = ' + cod_empresa;
 //Execute a instrução DELETE
 adoquery_aux.ExecSQL;
 //Encerra a transação confirmando as alterações

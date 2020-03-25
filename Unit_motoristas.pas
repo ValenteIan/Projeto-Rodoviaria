@@ -21,18 +21,20 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
-    BitBtn1: TBitBtn;
+    btn_inserir: TBitBtn;
     adoquery_aux: TADOQuery;
     rb_feminino: TRadioButton;
     rb_masculino: TRadioButton;
     btn_alterar: TBitBtn;
     btn_salvar: TBitBtn;
+    btn_excluir: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure BitBtn1Click(Sender: TObject);
+    procedure btn_inserirClick(Sender: TObject);
     procedure btn_salvarClick(Sender: TObject);
     procedure btn_alterarClick(Sender: TObject);
+    procedure btn_excluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,6 +59,8 @@ end;
 procedure Tform_motoristas.FormShow(Sender: TObject);
 begin
 adoquery_motoristas.Open;
+btn_salvar.Visible:=false;
+
 end;
 
 procedure Tform_motoristas.FormClose(Sender: TObject;
@@ -65,7 +69,7 @@ begin
 adoquery_motoristas.Close;
 end;
 
-procedure Tform_motoristas.BitBtn1Click(Sender: TObject);
+procedure Tform_motoristas.btn_inserirClick(Sender: TObject);
 begin
   if  (trim(edt_num.Text)='') or (trim(edt_nome.Text)='') or
       (trim(edt_idade.Text)='') or (not rb_feminino.Checked and not rb_masculino.Checked) or
@@ -106,6 +110,9 @@ end;
 
 procedure Tform_motoristas.btn_alterarClick(Sender: TObject);
 begin
+  btn_inserir.Visible:=false;
+  btn_excluir.Visible:=false;
+  btn_salvar.Visible:=true;
   num_motorista:=adoquery_motoristas.fieldbyname('num_motorista').AsString;
   edt_num.Text:=num_motorista;
   edt_nome.Text:=adoquery_motoristas.fieldbyname('nome').AsString;
@@ -152,7 +159,24 @@ begin
   rb_masculino.Checked:=false;
   rb_feminino.Checked:=false;
   edt_salario.Clear;
+  btn_inserir.Visible:=true;
+  btn_excluir.Visible:=true;
+  btn_salvar.Visible:=false;
 
+
+end;
+
+procedure Tform_motoristas.btn_excluirClick(Sender: TObject);
+begin
+  num_motorista:=adoquery_motoristas.fieldbyname('num_motorista').AsString;
+  Form_menu.ConexaoBD.BeginTrans;
+  adoquery_aux.SQL.Text:='DELETE FROM MOTORISTAS ' +
+                          ' WHERE NUM_MOTORISTA = ' + num_motorista;
+  adoquery_aux.ExecSQL;
+  Form_menu.ConexaoBD.CommitTrans;
+  adoquery_motoristas.Close;
+  adoquery_motoristas.Open;
+  showmessage('Motorista excluido com sucesso!')
 
 end;
 
