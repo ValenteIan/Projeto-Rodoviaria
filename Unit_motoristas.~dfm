@@ -1,8 +1,8 @@
 object form_motoristas: Tform_motoristas
   Left = 206
-  Top = 169
+  Top = 168
   Width = 1040
-  Height = 580
+  Height = 581
   Caption = 'Motoristas'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -127,7 +127,7 @@ object form_motoristas: Tform_motoristas
     TabOrder = 8
   end
   object btn_alterar: TBitBtn
-    Left = 360
+    Left = 336
     Top = 120
     Width = 75
     Height = 25
@@ -136,7 +136,7 @@ object form_motoristas: Tform_motoristas
     OnClick = btn_alterarClick
   end
   object btn_salvar: TBitBtn
-    Left = 448
+    Left = 416
     Top = 120
     Width = 89
     Height = 25
@@ -145,13 +145,22 @@ object form_motoristas: Tform_motoristas
     OnClick = btn_salvarClick
   end
   object btn_excluir: TBitBtn
-    Left = 544
+    Left = 592
     Top = 120
     Width = 75
     Height = 25
     Caption = 'Excluir'
     TabOrder = 11
     OnClick = btn_excluirClick
+  end
+  object btn_cancelar: TBitBtn
+    Left = 512
+    Top = 120
+    Width = 75
+    Height = 25
+    Caption = 'Cancelar'
+    TabOrder = 12
+    OnClick = btn_cancelarClick
   end
   object ds_motoristas: TDataSource
     DataSet = adoquery_motoristas

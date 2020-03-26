@@ -28,6 +28,7 @@ type
     btn_alterar: TBitBtn;
     btn_salvar: TBitBtn;
     btn_excluir: TBitBtn;
+    btn_cancelar: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -35,6 +36,7 @@ type
     procedure btn_salvarClick(Sender: TObject);
     procedure btn_alterarClick(Sender: TObject);
     procedure btn_excluirClick(Sender: TObject);
+    procedure btn_cancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,6 +47,7 @@ var
   form_motoristas: Tform_motoristas;
   num_motorista: string;
   sexo: string;
+  deu_erro: boolean;
 implementation
 
 uses Unit_menu;
@@ -59,8 +62,8 @@ end;
 procedure Tform_motoristas.FormShow(Sender: TObject);
 begin
 adoquery_motoristas.Open;
-btn_salvar.Visible:=false;
-
+btn_salvar.Enabled:=false;
+btn_cancelar.Enabled:=false;
 end;
 
 procedure Tform_motoristas.FormClose(Sender: TObject;
@@ -93,26 +96,47 @@ begin
                               edt_num.Text + ',' + QuotedStr(edt_nome.Text) + ',' +
                              edt_idade.Text + ',' + QuotedStr(sexo) + ',' +
                              edt_salario.Text + ')';
-      adoquery_aux.ExecSQL;
-      Form_menu.ConexaoBD.CommitTrans;
-      adoquery_motoristas.Close;
-      adoquery_motoristas.Open;
-      ShowMessage('Operação executada com sucesso!');
-      edt_num.Clear;
-      edt_nome.Clear;
-      edt_idade.Clear;
-      edt_salario.Clear;
-      rb_masculino.Checked:=false;
-      rb_feminino.Checked:=false;
+      try
+        adoquery_aux.ExecSQL;
+        deu_erro:= false;
+      except
+        on E: Exception do
+        begin
+          deu_erro:=true;
+          if Form_menu.ErroBD(E.Message, 'PK_Motoristas') = 'Sim' then
+            ShowMessage('Código já cadastrado')
+          else
+            ShowMessage('Ocorreu o seguinte erro: ' + E.Message);
+          end;
+        end;
+
+      if deu_erro = false then
+        begin
+          Form_menu.ConexaoBD.CommitTrans;
+          adoquery_motoristas.Close;
+          adoquery_motoristas.Open;
+          ShowMessage('Operação executada com sucesso!');
+          edt_num.Clear;
+          edt_nome.Clear;
+          edt_idade.Clear;
+          edt_salario.Clear;
+          rb_masculino.Checked:=false;
+          rb_feminino.Checked:=false;
+        end
+      else
+        begin
+          Form_menu.ConexaoBD.RollbackTrans;
+        end;      
 
     end;
 end;
 
 procedure Tform_motoristas.btn_alterarClick(Sender: TObject);
 begin
-  btn_inserir.Visible:=false;
-  btn_excluir.Visible:=false;
-  btn_salvar.Visible:=true;
+  btn_inserir.Enabled:=false;
+  btn_excluir.Enabled:=false;
+  btn_salvar.Enabled:=true;
+  btn_cancelar.Enabled:=true;
   num_motorista:=adoquery_motoristas.fieldbyname('num_motorista').AsString;
   edt_num.Text:=num_motorista;
   edt_nome.Text:=adoquery_motoristas.fieldbyname('nome').AsString;
@@ -148,20 +172,43 @@ begin
                           ' SEXO = ' + QuotedStr(sexo) + ',' +
                           ' SALARIO = ' + edt_salario.Text +
                           ' WHERE NUM_MOTORISTA = ' + num_motorista;
-  adoquery_aux.ExecSQL;
-  Form_menu.ConexaoBD.CommitTrans;
-  adoquery_motoristas.Close;
-  adoquery_motoristas.Open;
-  showmessage('Informações atualizadas com sucesso!');
-  edt_num.Clear;
-  edt_nome.Clear;
-  edt_idade.Clear;
-  rb_masculino.Checked:=false;
-  rb_feminino.Checked:=false;
-  edt_salario.Clear;
-  btn_inserir.Visible:=true;
-  btn_excluir.Visible:=true;
-  btn_salvar.Visible:=false;
+  try
+    adoquery_aux.ExecSQL;
+    deu_erro:=false;
+  except
+      on E : Exception do
+      begin
+        deu_erro := true;
+        if Form_menu.ErroBD(E.Message, 'FK_Onibus_Motoristas') = 'Sim' then
+          ShowMessage('Impossível atualizar o código pois existem onibus ligados a este motorista ')
+        else if Form_menu.ErroBD(E.Message, 'PK_Motoristas') = 'Sim' then
+          ShowMessage('Código ja cadastrado!')
+        else
+          ShowMessage('Ocorreu o seguinte erro: ' + E.Message);
+        end;
+  end;
+
+  if deu_erro = false then
+    begin
+    Form_menu.ConexaoBD.CommitTrans;
+    adoquery_motoristas.Close;
+    adoquery_motoristas.Open;
+    showmessage('Informações atualizadas com sucesso!');
+    edt_num.Clear;
+    edt_nome.Clear;
+    edt_idade.Clear;
+    rb_masculino.Checked:=false;
+    rb_feminino.Checked:=false;
+    edt_salario.Clear;
+    btn_inserir.Enabled:=true;
+    btn_excluir.Enabled:=true;
+    btn_cancelar.Enabled:=false;
+    btn_salvar.Enabled:=false;
+    end
+  else
+    begin
+     Form_menu.ConexaoBD.RollbackTrans;
+   end;    
 
 
 end;
@@ -172,12 +219,40 @@ begin
   Form_menu.ConexaoBD.BeginTrans;
   adoquery_aux.SQL.Text:='DELETE FROM MOTORISTAS ' +
                           ' WHERE NUM_MOTORISTA = ' + num_motorista;
-  adoquery_aux.ExecSQL;
-  Form_menu.ConexaoBD.CommitTrans;
-  adoquery_motoristas.Close;
-  adoquery_motoristas.Open;
-  showmessage('Motorista excluido com sucesso!')
+  try
+    adoquery_aux.ExecSQL;
+    deu_erro:=false;
+  except
+      on E: Exception do
+      begin
+      deu_erro := true;
+      if Form_menu.ErroBD(E.Message, 'FK_Onibus_Motoristas') = 'Sim' then
+        ShowMessage('Impossivel excluir pois existem onibus ligados a este motorista!')
+      else
+        ShowMessage('Ocorreu o seguinte erro: ' + E.Message);
+    end;
+  end;
 
+  if deu_erro = false then
+    begin
+      Form_menu.ConexaoBD.CommitTrans;
+      adoquery_motoristas.Close;
+      adoquery_motoristas.Open;
+      showmessage('Motorista excluido com sucesso!')
+    end  
+  else
+    begin
+      Form_menu.ConexaoBD.RollbackTrans
+    end;
+  end;   
+
+
+procedure Tform_motoristas.btn_cancelarClick(Sender: TObject);
+begin
+  btn_inserir.Enabled:=true;
+  btn_excluir.Enabled:=true;
+  btn_salvar.Enabled:=false;
+  btn_cancelar.Enabled:=false;
 end;
 
 end.

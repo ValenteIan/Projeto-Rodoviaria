@@ -212,7 +212,7 @@ adoquery_aux.ExecSQL;
 form_menu.ConexaoBD.CommitTrans;
 adoquery_onibus.Close;
 adoquery_onibus.Open;
-showmessage('Motorista excluido com sucesso');
+showmessage('Onibus excluido com sucesso');
 end;
 
 end.
