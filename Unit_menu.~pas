@@ -122,7 +122,6 @@ function TForm_menu.ErroBD(msg, texto: string): string;
 var
 posi: byte;
 begin
-  showmessage('entrou na função');
   posi:= Pos(texto, msg);
   if posi <> 0 then
    begin

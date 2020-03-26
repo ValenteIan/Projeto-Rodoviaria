@@ -136,20 +136,42 @@ adoquery_aux.SQL.Text:='UPDATE EMPRESAS SET ' +
                         ' COD_EMPRESA = ' + edt_cod.Text + ',' +
                         ' NOME = ' + QuotedStr(edt_nome.Text) +
                         ' WHERE COD_EMPRESA = ' + cod_empresa;
-//Execute a instrução UPDATE
-adoquery_aux.ExecSQL;
-//Encerra a transação confirmando as alterações
-Form_menu.ConexaoBD.CommitTrans;
-//Atualiza o adoquery_empresas
-adoquery_empresas.Close;
-adoquery_empresas.Open;
-//Exibe mensagem e limpa as caixas de texto
-showmessage('Informações atualizadas com sucesso!');
-edt_cod.Clear;
-edt_nome.Clear;
-btn_salvar.Visible:=false;
-btn_excluir.Visible:=true;
-btn_inserir.Visible:=true;
+try
+  //Execute a instrução UPDATE
+  adoquery_aux.ExecSQL;
+  deu_erro:=false;
+except
+    on E : Exception do
+    begin
+      deu_erro:=true;
+      if Form_menu.ErroBD(E.Message,'FK_Onibus_Empresas') = 'Sim' then
+        ShowMessage('Impossivel atualizar o código pois existem ônibus ligados a esta empresa!')
+      else if Form_menu.ErroBD(E.Message, 'PK_Empresas') = 'Sim' then
+        ShowMessage('Código já cadastrado!')
+      else
+        ShowMessage('Ocorreu o seguinte erro:' + E.Message);
+        end;
+end;
+
+if deu_erro = false then
+  begin
+    //Encerra a transação confirmando as alterações
+    Form_menu.ConexaoBD.CommitTrans;
+    //Atualiza o adoquery_empresas
+    adoquery_empresas.Close;
+    adoquery_empresas.Open;
+    //Exibe mensagem e limpa as caixas de texto
+    showmessage('Informações atualizadas com sucesso!');
+    edt_cod.Clear;
+    edt_nome.Clear;
+    btn_salvar.Visible:=false;
+    btn_excluir.Visible:=true;
+    btn_inserir.Visible:=true;
+  end
+else
+  begin
+    Form_menu.ConexaoBD.RollbackTrans;
+  end;  
 
 end;
 
