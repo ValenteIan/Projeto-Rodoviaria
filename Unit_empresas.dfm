@@ -41,7 +41,7 @@ object Form_empresas: TForm_empresas
   object dbgrid_empresas: TDBGrid
     Left = 160
     Top = 112
-    Width = 505
+    Width = 577
     Height = 169
     DataSource = ds_empresas
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
@@ -62,7 +62,7 @@ object Form_empresas: TForm_empresas
   object edt_nome: TEdit
     Left = 368
     Top = 40
-    Width = 297
+    Width = 361
     Height = 21
     TabOrder = 3
   end
@@ -94,13 +94,22 @@ object Form_empresas: TForm_empresas
     OnClick = btn_salvarClick
   end
   object btn_excluir: TBitBtn
-    Left = 568
+    Left = 656
     Top = 72
     Width = 75
     Height = 25
     Caption = 'Excluir'
     TabOrder = 7
     OnClick = btn_excluirClick
+  end
+  object btn_voltar: TBitBtn
+    Left = 568
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Cancelar'
+    TabOrder = 8
+    OnClick = btn_voltarClick
   end
   object adoquery_empresas: TADOQuery
     Connection = Form_menu.ConexaoBD

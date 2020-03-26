@@ -1,8 +1,8 @@
 object form_onibus: Tform_onibus
   Left = 211
-  Top = 198
+  Top = 199
   Width = 1088
-  Height = 563
+  Height = 562
   Caption = #212'nibus'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
