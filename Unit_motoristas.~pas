@@ -34,6 +34,7 @@ type
     procedure btn_inserirClick(Sender: TObject);
     procedure btn_salvarClick(Sender: TObject);
     procedure btn_alterarClick(Sender: TObject);
+    procedure btn_excluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -162,6 +163,20 @@ begin
   btn_excluir.Visible:=true;
   btn_salvar.Visible:=false;
 
+
+end;
+
+procedure Tform_motoristas.btn_excluirClick(Sender: TObject);
+begin
+  num_motorista:=adoquery_motoristas.fieldbyname('num_motorista').AsString;
+  Form_menu.ConexaoBD.BeginTrans;
+  adoquery_aux.SQL.Text:='DELETE FROM MOTORISTAS ' +
+                          ' WHERE NUM_MOTORISTA = ' + num_motorista;
+  adoquery_aux.ExecSQL;
+  Form_menu.ConexaoBD.CommitTrans;
+  adoquery_motoristas.Close;
+  adoquery_motoristas.Open;
+  showmessage('Motorista excluido com sucesso!')
 
 end;
 

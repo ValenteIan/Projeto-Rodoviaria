@@ -1,8 +1,8 @@
 object Form_menu: TForm_menu
   Left = 391
-  Top = 224
+  Top = 223
   Width = 521
-  Height = 468
+  Height = 469
   Caption = 'Menu Rodovi'#225'ria'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

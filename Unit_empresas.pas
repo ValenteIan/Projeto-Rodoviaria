@@ -37,6 +37,7 @@ type
 var
   Form_empresas: TForm_empresas;
   cod_empresa : string;
+  deu_erro: boolean;
 
 implementation
 
@@ -79,19 +80,42 @@ else
     //Monta o comando Insert
     adoquery_aux.SQL.Text:=' INSERT INTO EMPRESAS VALUES (' +
                             edt_cod.Text + ',' + QuotedStr(edt_nome.Text) + ')';
-    //Executa o comando SQL
-    adoquery_aux.ExecSQL;
-    //Encerra a transação confirmando a alteração
-    Form_menu.ConexaoBD.CommitTrans;
-    //Abre e fecha o adoquery_empresas para atualizar os registros
-    adoquery_empresas.Close;
-    adoquery_empresas.Open;
-    //Exibe mensagem e limpa os campos
-    ShowMessage('Operação executada com sucesso!');
-    edt_cod.Clear;
-    edt_nome.Clear;
+    try
+      //Executa o comando SQL
+      adoquery_aux.ExecSQL;
+      deu_erro:=false;
+    except
+      on E : Exception do
+      begin
+        deu_erro := true;
+        //Se for erro de PK então
+        //  exibe mensagem
+        //Senão
+        //  Exibe a mensagem sem tratamento
+        if Form_menu.ErroBD(E.Message, 'PK_Empresas') = 'Sim' then
+          showmessage('Código já cadastrado!')
+        else
+          showmessage('Ocorreu o seguinte erro: ' + E.Message);
+        end;
+      end;
+    if deu_erro = false then
+      begin
+        //Encerra a transação confirmando a alteração
+        Form_menu.ConexaoBD.CommitTrans;
+        //Abre e fecha o adoquery_empresas para atualizar os registros
+        adoquery_empresas.Close;
+        adoquery_empresas.Open;
+        //Exibe mensagem e limpa os campos
+        ShowMessage('Operação executada com sucesso!');
+        edt_cod.Clear;
+        edt_nome.Clear;
+      end
+    else
+      begin
+      Form_menu.ConexaoBD.RollbackTrans;
+      end;
+    end;  
   end;
-end;
 
 procedure TForm_empresas.btn_alterarClick(Sender: TObject);
 begin

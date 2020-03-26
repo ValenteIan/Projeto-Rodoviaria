@@ -76,6 +76,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    function ErroBD(msg: string; texto:string):string;
   end;
 
 var
@@ -83,7 +84,7 @@ var
 
 implementation
 
-uses Unit_empresas, Unit_motoristas, Unit_onibus;
+uses Unit_empresas, Unit_motoristas, Unit_onibus, StrUtils;
 
 {$R *.dfm}
 
@@ -117,4 +118,16 @@ begin
 form_onibus.showmodal;
 end;
 
+function TForm_menu.ErroBD(msg, texto: string): string;
+var
+posi: byte;
+begin
+  posi:= Pos(texto, msg);
+  if posi <> 0 then
+   begin
+    result:= 'Sim';
+    end
+  else
+    result:='Não';
+end;
 end.

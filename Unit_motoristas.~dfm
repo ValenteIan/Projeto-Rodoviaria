@@ -151,6 +151,7 @@ object form_motoristas: Tform_motoristas
     Height = 25
     Caption = 'Excluir'
     TabOrder = 11
+    OnClick = btn_excluirClick
   end
   object ds_motoristas: TDataSource
     DataSet = adoquery_motoristas

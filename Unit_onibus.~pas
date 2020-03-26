@@ -33,6 +33,7 @@ type
     procedure btn_inserirClick(Sender: TObject);
     procedure btn_alterarClick(Sender: TObject);
     procedure btn_salvarClick(Sender: TObject);
+    procedure btn_excluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -199,6 +200,19 @@ btn_salvar.Visible:=false;
 btn_inserir.Visible:=true;
 btn_excluir.Visible:=true;
 
+end;
+
+procedure Tform_onibus.btn_excluirClick(Sender: TObject);
+begin
+num_onibus:=adoquery_onibus.fieldbyname('onibus').AsString;
+Form_menu.ConexaoBD.BeginTrans;
+adoquery_aux.SQL.Text:=' DELETE FROM ONIBUS ' +
+                        ' WHERE NUM_ONIBUS = ' + num_onibus;
+adoquery_aux.ExecSQL;
+form_menu.ConexaoBD.CommitTrans;
+adoquery_onibus.Close;
+adoquery_onibus.Open;
+showmessage('Motorista excluido com sucesso');
 end;
 
 end.
