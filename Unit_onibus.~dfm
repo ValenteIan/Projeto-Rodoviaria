@@ -1,8 +1,8 @@
 object form_onibus: Tform_onibus
   Left = 211
-  Top = 199
+  Top = 198
   Width = 1088
-  Height = 562
+  Height = 563
   Caption = #212'nibus'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -133,13 +133,22 @@ object form_onibus: Tform_onibus
     OnClick = btn_salvarClick
   end
   object btn_excluir: TBitBtn
-    Left = 512
+    Left = 600
     Top = 128
     Width = 75
     Height = 25
     Caption = 'Excluir '
     TabOrder = 9
     OnClick = btn_excluirClick
+  end
+  object btn_cancelar: TBitBtn
+    Left = 512
+    Top = 128
+    Width = 75
+    Height = 25
+    Caption = 'Cancelar'
+    TabOrder = 10
+    OnClick = btn_cancelarClick
   end
   object ds_onibus: TDataSource
     DataSet = adoquery_onibus

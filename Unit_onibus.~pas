@@ -25,6 +25,7 @@ type
     btn_alterar: TBitBtn;
     btn_salvar: TBitBtn;
     btn_excluir: TBitBtn;
+    btn_cancelar: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -34,6 +35,7 @@ type
     procedure btn_alterarClick(Sender: TObject);
     procedure btn_salvarClick(Sender: TObject);
     procedure btn_excluirClick(Sender: TObject);
+    procedure btn_cancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,6 +46,7 @@ var
   form_onibus: Tform_onibus;
   num_motorista, cod_empresa : integer;
   num_onibus : string;
+  deu_erro: boolean;
 implementation
 
 uses Unit_menu;
@@ -57,7 +60,8 @@ end;
 
 procedure Tform_onibus.FormShow(Sender: TObject);
 begin
-btn_salvar.Visible:=false;
+btn_salvar.Enabled:=false;
+btn_cancelar.Enabled:=false;
 adoquery_onibus.Open;
 //Limpa o combobox de motoristas
 cb_motorista.Clear;
@@ -146,28 +150,49 @@ begin
     adoquery_aux.SQL.Text:='INSERT INTO ONIBUS VALUES ('+
                             edt_num.Text + ',' + IntToStr(cod_empresa) + ',' +
                             IntToStr(num_motorista) + ',' + QuotedStr(edt_trajeto.Text) + ')';
+     try
     //Executa comando SQL
     adoquery_aux.ExecSQL;
-    //Encerra a transação confirmando a alteração
-    Form_menu.ConexaoBD.CommitTrans;
-    //Abre e fecha o adoquery_onibus para atualizar os registros
-    adoquery_onibus.Close;
-    adoquery_onibus.Open;
-    //Exibe mensagem e limpa os campos
-    ShowMessage('Operação executada com sucesso !');
-    edt_num.Clear;
-    edt_trajeto.Clear;
-    cb_motorista.ItemIndex:= -1; //Colocamos -1 na propriedade Itemindex do combobox
-    cb_empresa.ItemIndex:= -1;    //para não precisa limpar os nomes cadastrados
+    deu_erro:=false;
+    except
+        on E : Exception do
+        begin
+          deu_erro := true;
+          if Form_menu.ErroBD(E.Message, 'PK_Onibus') = 'Sim' then
+            ShowMessage('Código ja cadastrado')
+          else
+            ShowMessage('Ocorreu o seguinte erro: ' + E.Message)
+        end;
+    end;
+
+    if deu_erro = false then
+      begin
+        //Encerra a transação confirmando a alteração
+        Form_menu.ConexaoBD.CommitTrans;
+        //Abre e fecha o adoquery_onibus para atualizar os registros
+        adoquery_onibus.Close;
+        adoquery_onibus.Open;
+        //Exibe mensagem e limpa os campos
+        ShowMessage('Operação executada com sucesso !');
+        edt_num.Clear;
+        edt_trajeto.Clear;
+        cb_motorista.ItemIndex:= -1; //Colocamos -1 na propriedade Itemindex do combobox
+        cb_empresa.ItemIndex:= -1;    //para não precisa limpar os nomes cadastrados
+      end
+    else
+      begin
+      Form_menu.ConexaoBD.RollbackTrans;
+    end;      
    end;
 
 end;
 
 procedure Tform_onibus.btn_alterarClick(Sender: TObject);
 begin
-  btn_salvar.Visible:=true;
-  btn_inserir.Visible:=false;
-  btn_excluir.Visible:=false;
+  btn_inserir.Enabled:=false;
+  btn_excluir.Enabled:=false;
+  btn_salvar.Enabled:=true;
+  btn_cancelar.Enabled:=true;
   num_onibus:=adoquery_onibus.fieldbyname('onibus').AsString;
   edt_num.Text:=num_onibus;
   edt_trajeto.Text:=adoquery_onibus.fieldbyname('trajeto').AsString;
@@ -187,18 +212,39 @@ adoquery_aux.SQL.Text:='UPDATE ONIBUS SET ' +
                         ' NUM_MOTORISTA = ' + inttostr(num_motorista) + ',' +
                         ' TRAJETO = ' + QuotedStr(edt_trajeto.Text) +
                         ' WHERE NUM_ONIBUS = ' + num_onibus;
-adoquery_aux.ExecSQL;
-Form_menu.ConexaoBD.CommitTrans;
-adoquery_onibus.Close;
-adoquery_onibus.Open;
-showmessage('Informações atualizadas com sucesso!');
-edt_num.Clear;
-edt_trajeto.Clear;
-cb_motorista.ItemIndex := -1;
-cb_empresa.ItemIndex := -1;
-btn_salvar.Visible:=false;
-btn_inserir.Visible:=true;
-btn_excluir.Visible:=true;
+try
+  adoquery_aux.ExecSQL;
+  deu_erro:=false
+except
+    on E: exception do
+    begin
+      deu_erro:=true;
+      if form_menu.ErroBD(E.Message, 'PK_Onibus') = 'Sim' then
+        showmessage('Código já cadastrado')
+      else
+        showmessage('Ocorreu o seguinte erro ' + E.Message)
+    end;
+end;
+if deu_erro = false then
+  begin
+    Form_menu.ConexaoBD.CommitTrans;
+    adoquery_onibus.Close;
+    adoquery_onibus.Open;
+    showmessage('Informações atualizadas com sucesso!');
+    edt_num.Clear;
+    edt_trajeto.Clear;
+    cb_motorista.ItemIndex := -1;
+    cb_empresa.ItemIndex := -1;
+    btn_inserir.Enabled:=true;
+    btn_excluir.Enabled:=true;
+    btn_salvar.Enabled:=false;
+    btn_cancelar.Enabled:=false;
+  end
+else
+  begin
+  form_menu.ConexaoBD.RollbackTrans;
+  end;
+        
 
 end;
 
@@ -212,7 +258,21 @@ adoquery_aux.ExecSQL;
 form_menu.ConexaoBD.CommitTrans;
 adoquery_onibus.Close;
 adoquery_onibus.Open;
-showmessage('Motorista excluido com sucesso');
+showmessage('Onibus excluido com sucesso');
+end;
+
+procedure Tform_onibus.btn_cancelarClick(Sender: TObject);
+begin
+  cb_motorista.Clear;
+  cb_empresa.Clear;
+  edt_num.Clear;
+  edt_trajeto.Clear;
+  cb_motorista.ItemIndex := -1;
+  cb_empresa.ItemIndex := -1;
+  btn_inserir.Enabled:=true;
+  btn_excluir.Enabled:=true;
+  btn_salvar.Enabled:=false;
+  btn_cancelar.Enabled:=false;
 end;
 
 end.
