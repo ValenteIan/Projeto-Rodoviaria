@@ -132,6 +132,15 @@ object form_onibus: Tform_onibus
     TabOrder = 8
     OnClick = btn_salvarClick
   end
+  object btn_excluir: TBitBtn
+    Left = 512
+    Top = 128
+    Width = 75
+    Height = 25
+    Caption = 'Excluir '
+    TabOrder = 9
+    OnClick = btn_excluirClick
+  end
   object ds_onibus: TDataSource
     DataSet = adoquery_onibus
     Left = 360

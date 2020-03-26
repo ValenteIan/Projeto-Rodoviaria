@@ -24,6 +24,7 @@ type
     adoquery_aux: TADOQuery;
     btn_alterar: TBitBtn;
     btn_salvar: TBitBtn;
+    btn_excluir: TBitBtn;
     procedure btn_fecharClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -55,6 +56,7 @@ end;
 
 procedure Tform_onibus.FormShow(Sender: TObject);
 begin
+btn_salvar.Visible:=false;
 adoquery_onibus.Open;
 //Limpa o combobox de motoristas
 cb_motorista.Clear;
@@ -162,6 +164,9 @@ end;
 
 procedure Tform_onibus.btn_alterarClick(Sender: TObject);
 begin
+  btn_salvar.Visible:=true;
+  btn_inserir.Visible:=false;
+  btn_excluir.Visible:=false;
   num_onibus:=adoquery_onibus.fieldbyname('onibus').AsString;
   edt_num.Text:=num_onibus;
   edt_trajeto.Text:=adoquery_onibus.fieldbyname('trajeto').AsString;
@@ -190,7 +195,9 @@ edt_num.Clear;
 edt_trajeto.Clear;
 cb_motorista.ItemIndex := -1;
 cb_empresa.ItemIndex := -1;
-
+btn_salvar.Visible:=false;
+btn_inserir.Visible:=true;
+btn_excluir.Visible:=true;
 
 end;
 
